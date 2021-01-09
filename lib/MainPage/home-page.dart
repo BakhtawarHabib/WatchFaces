@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import 'package:watchfaces/MainPage/install.dart';
+import 'package:watchfaces/MainPage/privacy.dart';
 
 final imgUrl =
     "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
@@ -34,6 +36,8 @@ class _UserHomePageState extends State<UserHomePage> {
   String file2name = '';
   var id;
   List document = [];
+  TextEditingController searchController = new TextEditingController();
+  String filter;
 
   TextStyle defaultStyle = TextStyle(
     color: Colors.white,
@@ -82,6 +86,11 @@ class _UserHomePageState extends State<UserHomePage> {
   void initState() {
     getPermission();
     getWatchFaces();
+    searchController.addListener(() {
+      setState(() {
+        filter = searchController.text;
+      });
+    });
     super.initState();
   }
 
@@ -137,6 +146,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                 'assets/logo.png',
                                 width: 250,
                                 height: 270,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -160,11 +170,19 @@ class _UserHomePageState extends State<UserHomePage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              ListTile(
-                                leading: Icon(Icons.help),
-                                title: Text('How to install',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16)),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Install()));
+                                },
+                                child: ListTile(
+                                  leading: Icon(Icons.help),
+                                  title: Text('How to install',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 16)),
+                                ),
                               ),
                             ],
                           ),
@@ -174,10 +192,10 @@ class _UserHomePageState extends State<UserHomePage> {
                     Container(
                       child: InkWell(
                         onTap: () async {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ViewPersonalSellingList()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Privacy()));
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
@@ -221,96 +239,132 @@ class _UserHomePageState extends State<UserHomePage> {
                         height: 10,
                       ),
                       Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Container(
+                          width: 200,
+                          color: Colors.white,
+                          child: TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              hintText: "Search",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.green,
+                              ),
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(0.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
                         margin: const EdgeInsets.all(10),
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
                             itemCount: watchFaceName?.length ?? 0,
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {},
-                                child: Card(
-                                  elevation: 7,
-                                  semanticContainer: true,
-                                  color: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.green,
-                                      ),
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ListTile(
-                                            leading: CircleAvatar(
-                                              radius: 30.0,
-                                              backgroundImage: NetworkImage(
-                                                  watchFaceImage[index]),
-                                              backgroundColor:
-                                                  Colors.transparent,
+                              return filter == null || filter == ""
+                                  ? InkWell(
+                                      onTap: () {},
+                                      child: Card(
+                                        elevation: 7,
+                                        semanticContainer: true,
+                                        color: Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.green,
                                             ),
-                                            title: Text(watchFaceName[index],
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16)),
-                                            trailing: new RaisedButton(
-                                              color: Colors.green[400],
-                                              onPressed: () async {
-                                                String path = await ExtStorage
-                                                    .getExternalStoragePublicDirectory(
-                                                        ExtStorage
-                                                            .DIRECTORY_DOWNLOADS);
-                                                //String fullPath = tempDir.path + "/boo2.pdf'";
-                                                String fullPath =
-                                                    "/storage/emulated/0/appmanager/" +
-                                                        imgname;
-                                                // String fullPath1 =
-                                                //     "$path/test.pdf";
-                                                String fullPath1 =
-                                                    "/storage/emulated/0/appmanager/" +
-                                                        file1name;
-                                                String fullPath2 =
-                                                    "/storage/emulated/0/appmanager/" +
-                                                        file2name;
-                                                print('full path ${fullPath1}');
-
-                                                download2(
-                                                    dio,
-                                                    watchFaceFile2[0],
-                                                    fullPath2);
-                                                download2(
-                                                    dio,
-                                                    watchFaceImage[0],
-                                                    fullPath);
-                                                download2(
-                                                    dio2,
-                                                    watchFaceFile1[0],
-                                                    fullPath1);
-                                                // download2(
-                                                //     dio3,
-                                                //     watchFaceFile2[0],
-                                                //     fullPath);
-                                                print(
-                                                  watchFaceFile1[index],
-                                                );
-                                              },
-                                              child: new Text(
-                                                "Click to download",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
                                           ),
-                                        ]),
-                                  ),
-                                ),
-                              );
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                ListTile(
+                                                  leading: CircleAvatar(
+                                                    radius: 30.0,
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                            watchFaceImage[
+                                                                index]),
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                  ),
+                                                  title: Text(
+                                                      watchFaceName[index],
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16)),
+                                                  trailing: new RaisedButton(
+                                                    color: Colors.green[400],
+                                                    onPressed: () async {
+                                                      String path = await ExtStorage
+                                                          .getExternalStoragePublicDirectory(
+                                                              ExtStorage
+                                                                  .DIRECTORY_DOWNLOADS);
+                                                      //String fullPath = tempDir.path + "/boo2.pdf'";
+                                                      String fullPath =
+                                                          "/storage/emulated/0/appmanager/" +
+                                                              imgname;
+                                                      // String fullPath1 =
+                                                      //     "$path/test.pdf";
+                                                      String fullPath1 =
+                                                          "/storage/emulated/0/appmanager/" +
+                                                              file1name;
+                                                      String fullPath2 =
+                                                          "/storage/emulated/0/appmanager/" +
+                                                              file2name;
+                                                      print(
+                                                          'full path ${fullPath1}');
+
+                                                      download2(
+                                                          dio,
+                                                          watchFaceFile2[index],
+                                                          fullPath2);
+                                                      download2(
+                                                          dio,
+                                                          watchFaceImage[index],
+                                                          fullPath);
+                                                      download2(
+                                                          dio2,
+                                                          watchFaceFile1[index],
+                                                          fullPath1);
+                                                      // download2(
+                                                      //     dio3,
+                                                      //     watchFaceFile2[0],
+                                                      //     fullPath);
+                                                      print(
+                                                        watchFaceFile1[index],
+                                                      );
+                                                    },
+                                                    child: new Text(
+                                                      "Click to download",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
+                                        ),
+                                      ),
+                                    )
+                                  : new Container();
                             }),
                       ),
                       SizedBox(
