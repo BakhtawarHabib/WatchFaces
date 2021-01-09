@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:watchfaces/MainPage/install.dart';
 import 'package:watchfaces/MainPage/privacy.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 final imgUrl =
     "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
@@ -352,6 +353,33 @@ class _UserHomePageState extends State<UserHomePage> {
                                                       print(
                                                         watchFaceFile1[index],
                                                       );
+                                                      showToast(
+                                                          'Watchface has downloaded',
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 17),
+                                                          context: context,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          animation:
+                                                              StyledToastAnimation
+                                                                  .rotate,
+                                                          reverseAnimation:
+                                                              StyledToastAnimation
+                                                                  .fadeRotate,
+                                                          position:
+                                                              StyledToastPosition
+                                                                  .center,
+                                                          animDuration:
+                                                              Duration(
+                                                                  seconds: 1),
+                                                          duration: Duration(
+                                                              seconds: 4),
+                                                          curve:
+                                                              Curves.elasticOut,
+                                                          reverseCurve:
+                                                              Curves.elasticIn);
                                                     },
                                                     child: new Text(
                                                       "Click to download",

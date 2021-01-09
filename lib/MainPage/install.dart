@@ -13,32 +13,50 @@ class Install extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text(
-              "1 :See different watches",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                "1 :See different watches",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text(
-              "2: Click on button",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+            Image.asset(
+              "assets/s4.jpg",
+              height: 500,
+              width: 400,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text(
-              "3: File has downloaded in appmanager folder (with image)",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                "2: Click on button",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
-          )
-        ],
+            Image.asset(
+              "assets/s3.jpg",
+              height: 500,
+              width: 400,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                "3: File has downloaded in appmanager folder (with image)",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            Image.asset(
+              "assets/s2.jpg",
+              height: 500,
+              width: 400,
+            ),
+          ],
+        ),
       ),
     );
   }
