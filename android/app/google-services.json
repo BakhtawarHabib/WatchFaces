@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "258361039193",
+    "project_id": "watchfaces-51a33",
+    "storage_bucket": "watchfaces-51a33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258361039193:android:a476032fae746d80249448",
+        "android_client_info": {
+          "package_name": "com.app.watchfaces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258361039193-ncrjr7hjebel264d3n0d9c29aocbm3r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3FxYrhGpDkggius5PlnHoobP2YA0lkas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258361039193-ncrjr7hjebel264d3n0d9c29aocbm3r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
